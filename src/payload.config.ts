@@ -13,7 +13,7 @@ import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
 import { Blogs } from './collections/Blogs'
 import { ContactForm } from './collections/ContactForm'
-import SiteSettings from './collections/SiteSettings'
+import SiteSettings from './globals/SiteSettings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,15 +25,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [
-    Users,
-    Media,
-    Pages,
-    Projects,
-    Blogs,
-    ContactForm,
-    SiteSettings,
-  ],
+  collections: [Users, Media, Pages, Projects, Blogs, ContactForm],
+  globals: [SiteSettings],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET ?? '',
   typescript: {

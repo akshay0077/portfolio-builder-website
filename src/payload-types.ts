@@ -72,7 +72,6 @@ export interface Config {
     projects: Project
     blogs: Blog
     'contact-forms': ContactForm
-    'site-settings': SiteSetting
     'payload-locked-documents': PayloadLockedDocument
     'payload-preferences': PayloadPreference
     'payload-migrations': PayloadMigration
@@ -85,7 +84,6 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>
     blogs: BlogsSelect<false> | BlogsSelect<true>
     'contact-forms': ContactFormsSelect<false> | ContactFormsSelect<true>
-    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>
     'payload-locked-documents':
       | PayloadLockedDocumentsSelect<false>
       | PayloadLockedDocumentsSelect<true>
@@ -99,8 +97,12 @@ export interface Config {
   db: {
     defaultIDType: number
   }
-  globals: {}
-  globalsSelect: {}
+  globals: {
+    'site-settings': SiteSetting
+  }
+  globalsSelect: {
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>
+  }
   locale: null
   user: User & {
     collection: 'users'
@@ -176,51 +178,18 @@ export interface Page {
   pageLayout?:
     | (
         | {
-            heading: string
-            subheading?: string | null
-            profileImage?: (number | null) | Media
-            socialLinks?:
-              | {
-                  platform:
-                    | 'github'
-                    | 'linkedin'
-                    | 'twitter'
-                    | 'instagram'
-                    | 'facebook'
-                    | 'youtube'
-                  url: string
-                  id?: string | null
-                }[]
-              | null
-            id?: string | null
-            blockName?: string | null
-            blockType: 'homeBlock'
-          }
-        | {
-            heading: string
-            subheading?: string | null
-            techStacks?:
-              | {
-                  category: string
-                  technologies?:
-                    | {
-                        name: string
-                        icon?: (number | null) | Media
-                        id?: string | null
-                      }[]
-                    | null
-                  id?: string | null
-                }[]
-              | null
-            id?: string | null
-            blockName?: string | null
-            blockType: 'stacksBlock'
-          }
-        | {
-            heading: string
-            subheading?: string | null
-            profileImage?: (number | null) | Media
-            content?: {
+            /**
+             * The greeting text displayed on the home page.
+             */
+            greetText?: string | null
+            /**
+             * The name to be displayed prominently on the home page.
+             */
+            name: string
+            /**
+             * A short description or tagline to describe yourself or your site.
+             */
+            description?: {
               root: {
                 type: string
                 children: {
@@ -242,14 +211,179 @@ export interface Page {
               }
               [k: string]: unknown
             } | null
-            buttonText?: string | null
+            /**
+             * A profile picture to display on the home page.
+             */
+            profileImage?: (number | null) | Media
+            /**
+             * A list of social media links to display on the home page.
+             */
+            socialLinks?:
+              | {
+                  /**
+                   * The social media platform for this link.
+                   */
+                  platform:
+                    | 'github'
+                    | 'linkedin'
+                    | 'twitter'
+                    | 'instagram'
+                    | 'facebook'
+                    | 'youtube'
+                  /**
+                   * The URL to your profile on this platform.
+                   */
+                  url: string
+                  id?: string | null
+                }[]
+              | null
+            /**
+             * The text for the main call-to-action button on the home page.
+             */
+            button?: string | null
+            /**
+             * The URL or path the button navigates to.
+             */
             buttonPath?: string | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'homeBlock'
+          }
+        | {
+            /**
+             * The main heading for the tech stacks section.
+             */
+            heading: string
+            /**
+             * A subheading or brief description for the tech stacks section.
+             */
+            subheading?: string | null
+            /**
+             * Categories of technologies you are proficient in.
+             */
+            techStacks?:
+              | {
+                  /**
+                   * The category name (e.g., "Frontend", "Backend", "DevOps").
+                   */
+                  category: string
+                  /**
+                   * List of technologies in this category.
+                   */
+                  technologies?:
+                    | {
+                        /**
+                         * The name of the technology.
+                         */
+                        name: string
+                        /**
+                         * An icon representing this technology.
+                         */
+                        icon?: (number | null) | Media
+                        id?: string | null
+                      }[]
+                    | null
+                  id?: string | null
+                }[]
+              | null
+            id?: string | null
+            blockName?: string | null
+            blockType: 'stacksBlock'
+          }
+        | {
+            /**
+             * The main heading for the about section.
+             */
+            heading: string
+            /**
+             * A subheading or brief description for the about section.
+             */
+            subheading?: string | null
+            /**
+             * Your profile image to display in the about section.
+             */
+            profileImage?: (number | null) | Media
+            /**
+             * A detailed description about yourself, your background, and your interests.
+             */
+            aboutYourself?: {
+              root: {
+                type: string
+                children: {
+                  type: string
+                  version: number
+                  [k: string]: unknown
+                }[]
+                direction: ('ltr' | 'rtl') | null
+                format:
+                  | 'left'
+                  | 'start'
+                  | 'center'
+                  | 'right'
+                  | 'end'
+                  | 'justify'
+                  | ''
+                indent: number
+                version: number
+              }
+              [k: string]: unknown
+            } | null
+            /**
+             * Additional details about yourself organized by categories.
+             */
+            details?:
+              | {
+                  /**
+                   * The title or category of these details.
+                   */
+                  detailsTitle: string
+                  /**
+                   * Points or items under this detail category.
+                   */
+                  detailPoints?:
+                    | {
+                        /**
+                         * A specific point or item of information.
+                         */
+                        detailPoint: string
+                        id?: string | null
+                      }[]
+                    | null
+                  id?: string | null
+                }[]
+              | null
+            /**
+             * Text to display on the button.
+             */
+            buttonText?: string | null
+            /**
+             * URL or path the button should link to.
+             */
+            buttonPath?: string | null
+            /**
+             * Your coding profiles on various platforms.
+             */
             codeProfiles?: {
+              /**
+               * Heading for the code profiles section.
+               */
               heading?: string | null
+              /**
+               * List of your coding profiles.
+               */
               profiles?:
                 | {
+                    /**
+                     * Name of the coding platform.
+                     */
                     title: string
+                    /**
+                     * URL to your profile on this platform.
+                     */
                     url: string
+                    /**
+                     * Logo or image for this coding platform.
+                     */
                     image?: (number | null) | Media
                     id?: string | null
                   }[]
@@ -260,48 +394,108 @@ export interface Page {
             blockType: 'aboutBlock'
           }
         | {
+            /**
+             * The main heading for the experiences section.
+             */
             heading: string
+            /**
+             * A subheading or brief description for the experiences section.
+             */
             subheading?: string | null
+            /**
+             * Add your work experiences here.
+             */
             experiences?:
               | {
+                  /**
+                   * Your job title or position.
+                   */
                   title: string
+                  /**
+                   * The name of the company you worked for.
+                   */
                   company: string
+                  /**
+                   * URL to the company website.
+                   */
+                  companyLink?: string | null
+                  /**
+                   * Logo of the company you worked for.
+                   */
                   companyLogo?: (number | null) | Media
+                  /**
+                   * The location where you worked.
+                   */
                   location?: string | null
+                  /**
+                   * When you started working at this position.
+                   */
                   startDate?: string | null
+                  /**
+                   * When you finished working at this position.
+                   */
                   endDate?: string | null
+                  /**
+                   * Check if this is your current job.
+                   */
                   current?: boolean | null
-                  description?: {
-                    root: {
-                      type: string
-                      children: {
-                        type: string
-                        version: number
-                        [k: string]: unknown
+                  /**
+                   * Details about your work and responsibilities.
+                   */
+                  workDetails?:
+                    | {
+                        /**
+                         * Description of your work responsibilities or projects.
+                         */
+                        description?: {
+                          root: {
+                            type: string
+                            children: {
+                              type: string
+                              version: number
+                              [k: string]: unknown
+                            }[]
+                            direction: ('ltr' | 'rtl') | null
+                            format:
+                              | 'left'
+                              | 'start'
+                              | 'center'
+                              | 'right'
+                              | 'end'
+                              | 'justify'
+                              | ''
+                            indent: number
+                            version: number
+                          }
+                          [k: string]: unknown
+                        } | null
+                        id?: string | null
                       }[]
-                      direction: ('ltr' | 'rtl') | null
-                      format:
-                        | 'left'
-                        | 'start'
-                        | 'center'
-                        | 'right'
-                        | 'end'
-                        | 'justify'
-                        | ''
-                      indent: number
-                      version: number
-                    }
-                    [k: string]: unknown
-                  } | null
+                    | null
+                  /**
+                   * Skills you utilized in this position.
+                   */
                   skills?:
                     | {
+                        /**
+                         * A skill you used in this role.
+                         */
                         skill: string
                         id?: string | null
                       }[]
                     | null
+                  /**
+                   * Heading for the achievements section.
+                   */
+                  achievementsHeading?: string | null
+                  /**
+                   * Your key achievements in this role.
+                   */
                   achievements?:
                     | {
-                        heading: string
+                        /**
+                         * Description of your achievement.
+                         */
                         description?: string | null
                         id?: string | null
                       }[]
@@ -314,28 +508,63 @@ export interface Page {
             blockType: 'experiencesBlock'
           }
         | {
+            /**
+             * The main heading for the contact section.
+             */
             heading: string
+            /**
+             * A description or brief text for the contact section.
+             */
             subheading?: string | null
+            /**
+             * Your contact email address.
+             */
             email?: string | null
+            /**
+             * Your contact phone number.
+             */
             phone?: string | null
-            formFields?:
+            /**
+             * List of reasons why someone might contact you.
+             */
+            contactReasons?:
               | {
-                  label: string
-                  type: 'text' | 'email' | 'textarea' | 'select'
-                  required?: boolean | null
+                  /**
+                   * A reason or category for contact (e.g., "Business Inquiry", "Job Opportunity").
+                   */
+                  reason: string
+                  /**
+                   * A brief description of this contact reason.
+                   */
+                  description?: string | null
                   id?: string | null
                 }[]
               | null
+            /**
+             * Text to display on the contact form submit button.
+             */
             submitButtonText?: string | null
             id?: string | null
             blockName?: string | null
             blockType: 'contactBlock'
           }
         | {
+            /**
+             * The main heading for the form section.
+             */
             heading: string
+            /**
+             * Define the fields that will appear in your form.
+             */
             formFields?:
               | {
+                  /**
+                   * The label for this form field.
+                   */
                   label: string
+                  /**
+                   * The type of input field to display.
+                   */
                   type:
                     | 'text'
                     | 'email'
@@ -343,38 +572,55 @@ export interface Page {
                     | 'select'
                     | 'checkbox'
                     | 'radio'
+                  /**
+                   * Check if this field is required to be filled out.
+                   */
                   required?: boolean | null
                   id?: string | null
                 }[]
               | null
+            /**
+             * Text to display on the form submit button.
+             */
             submitButtonText?: string | null
             id?: string | null
             blockName?: string | null
             blockType: 'formBlock'
           }
         | {
+            /**
+             * Your Disqus shortname from your Disqus account.
+             */
             disqusShortname: string
+            /**
+             * A unique identifier for the comment thread (optional).
+             */
             identifier?: string | null
             id?: string | null
             blockName?: string | null
             blockType: 'disqusCommentBlock'
           }
         | {
+            /**
+             * The title for this list section.
+             */
             heading: string
-            subheading?: string | null
-            items?:
-              | {
-                  title: string
-                  description?: string | null
-                  image?: (number | null) | Media
-                  link?: string | null
-                  id?: string | null
-                }[]
-              | null
-            layout?: ('grid' | 'list' | 'cards') | null
+            /**
+             * Select which collection to display items from.
+             */
+            collectionSlug: 'blogs' | 'projects'
             id?: string | null
             blockName?: string | null
             blockType: 'listBlock'
+          }
+        | {
+            /**
+             * Select which collection to display content from.
+             */
+            collectionSlug: 'blogs' | 'projects'
+            id?: string | null
+            blockName?: string | null
+            blockType: 'dynamicContentBlock'
           }
       )[]
     | null
@@ -399,11 +645,10 @@ export interface Page {
         id?: string | null
       }[]
     | null
-  status?: ('draft' | 'published') | null
-  /**
-   * Is this the home page?
-   */
-  isHomePage?: boolean | null
+  pageSettings?: {
+    isHomePage?: boolean | null
+    isDynamicPage?: boolean | null
+  }
   updatedAt: string
   createdAt: string
   _status?: ('draft' | 'published') | null
@@ -541,6 +786,434 @@ export interface ContactForm {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: number
+  document?:
+    | ({
+        relationTo: 'users'
+        value: number | User
+      } | null)
+    | ({
+        relationTo: 'media'
+        value: number | Media
+      } | null)
+    | ({
+        relationTo: 'pages'
+        value: number | Page
+      } | null)
+    | ({
+        relationTo: 'projects'
+        value: number | Project
+      } | null)
+    | ({
+        relationTo: 'blogs'
+        value: number | Blog
+      } | null)
+    | ({
+        relationTo: 'contact-forms'
+        value: number | ContactForm
+      } | null)
+  globalSlug?: string | null
+  user: {
+    relationTo: 'users'
+    value: number | User
+  }
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences".
+ */
+export interface PayloadPreference {
+  id: number
+  user: {
+    relationTo: 'users'
+    value: number | User
+  }
+  key?: string | null
+  value?:
+    | {
+        [k: string]: unknown
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations".
+ */
+export interface PayloadMigration {
+  id: number
+  name?: string | null
+  batch?: number | null
+  updatedAt: string
+  createdAt: string
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+  email?: T
+  resetPasswordToken?: T
+  resetPasswordExpiration?: T
+  salt?: T
+  hash?: T
+  loginAttempts?: T
+  lockUntil?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+  url?: T
+  thumbnailURL?: T
+  filename?: T
+  mimeType?: T
+  filesize?: T
+  width?: T
+  height?: T
+  focalX?: T
+  focalY?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T
+  pageLayout?:
+    | T
+    | {
+        homeBlock?:
+          | T
+          | {
+              greetText?: T
+              name?: T
+              description?: T
+              profileImage?: T
+              socialLinks?:
+                | T
+                | {
+                    platform?: T
+                    url?: T
+                    id?: T
+                  }
+              button?: T
+              buttonPath?: T
+              id?: T
+              blockName?: T
+            }
+        stacksBlock?:
+          | T
+          | {
+              heading?: T
+              subheading?: T
+              techStacks?:
+                | T
+                | {
+                    category?: T
+                    technologies?:
+                      | T
+                      | {
+                          name?: T
+                          icon?: T
+                          id?: T
+                        }
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        aboutBlock?:
+          | T
+          | {
+              heading?: T
+              subheading?: T
+              profileImage?: T
+              aboutYourself?: T
+              details?:
+                | T
+                | {
+                    detailsTitle?: T
+                    detailPoints?:
+                      | T
+                      | {
+                          detailPoint?: T
+                          id?: T
+                        }
+                    id?: T
+                  }
+              buttonText?: T
+              buttonPath?: T
+              codeProfiles?:
+                | T
+                | {
+                    heading?: T
+                    profiles?:
+                      | T
+                      | {
+                          title?: T
+                          url?: T
+                          image?: T
+                          id?: T
+                        }
+                  }
+              id?: T
+              blockName?: T
+            }
+        experiencesBlock?:
+          | T
+          | {
+              heading?: T
+              subheading?: T
+              experiences?:
+                | T
+                | {
+                    title?: T
+                    company?: T
+                    companyLink?: T
+                    companyLogo?: T
+                    location?: T
+                    startDate?: T
+                    endDate?: T
+                    current?: T
+                    workDetails?:
+                      | T
+                      | {
+                          description?: T
+                          id?: T
+                        }
+                    skills?:
+                      | T
+                      | {
+                          skill?: T
+                          id?: T
+                        }
+                    achievementsHeading?: T
+                    achievements?:
+                      | T
+                      | {
+                          description?: T
+                          id?: T
+                        }
+                    id?: T
+                  }
+              id?: T
+              blockName?: T
+            }
+        contactBlock?:
+          | T
+          | {
+              heading?: T
+              subheading?: T
+              email?: T
+              phone?: T
+              contactReasons?:
+                | T
+                | {
+                    reason?: T
+                    description?: T
+                    id?: T
+                  }
+              submitButtonText?: T
+              id?: T
+              blockName?: T
+            }
+        formBlock?:
+          | T
+          | {
+              heading?: T
+              formFields?:
+                | T
+                | {
+                    label?: T
+                    type?: T
+                    required?: T
+                    id?: T
+                  }
+              submitButtonText?: T
+              id?: T
+              blockName?: T
+            }
+        disqusCommentBlock?:
+          | T
+          | {
+              disqusShortname?: T
+              identifier?: T
+              id?: T
+              blockName?: T
+            }
+        listBlock?:
+          | T
+          | {
+              heading?: T
+              collectionSlug?: T
+              id?: T
+              blockName?: T
+            }
+        dynamicContentBlock?:
+          | T
+          | {
+              collectionSlug?: T
+              id?: T
+              blockName?: T
+            }
+      }
+  meta?:
+    | T
+    | {
+        title?: T
+        description?: T
+        image?: T
+        keywords?: T
+      }
+  slugMode?: T
+  slug?: T
+  pathMode?: T
+  path?: T
+  parent?: T
+  breadcrumbs?:
+    | T
+    | {
+        label?: T
+        url?: T
+        id?: T
+      }
+  pageSettings?:
+    | T
+    | {
+        isHomePage?: T
+        isDynamicPage?: T
+      }
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  projectType?: T
+  projectName?: T
+  projectImage?: T
+  summary?: T
+  projectLinks?:
+    | T
+    | {
+        serviceName?: T
+        serviceLink?: T
+        id?: T
+      }
+  features?:
+    | T
+    | {
+        feature?: T
+        id?: T
+      }
+  techStack?:
+    | T
+    | {
+        technology?: T
+        technologyIcon?: T
+        id?: T
+      }
+  slug?: T
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "blogs_select".
+ */
+export interface BlogsSelect<T extends boolean = true> {
+  title?: T
+  platform?: T
+  featuredImage?: T
+  summary?: T
+  externalLink?: T
+  publishedDate?: T
+  tags?:
+    | T
+    | {
+        tag?: T
+        id?: T
+      }
+  slug?: T
+  updatedAt?: T
+  createdAt?: T
+  _status?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-forms_select".
+ */
+export interface ContactFormsSelect<T extends boolean = true> {
+  name?: T
+  email?: T
+  phone?: T
+  subject?: T
+  message?: T
+  status?: T
+  priority?: T
+  internalNotes?: T
+  source?: T
+  ipAddress?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents_select".
+ */
+export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
+  document?: T
+  globalSlug?: T
+  user?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-preferences_select".
+ */
+export interface PayloadPreferencesSelect<T extends boolean = true> {
+  user?: T
+  key?: T
+  value?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-migrations_select".
+ */
+export interface PayloadMigrationsSelect<T extends boolean = true> {
+  name?: T
+  batch?: T
+  updatedAt?: T
+  createdAt?: T
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings".
  */
 export interface SiteSetting {
@@ -638,388 +1311,9 @@ export interface SiteSetting {
     enabled?: boolean | null
     disclosure?: string | null
   }
-  updatedAt: string
-  createdAt: string
   _status?: ('draft' | 'published') | null
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-locked-documents".
- */
-export interface PayloadLockedDocument {
-  id: number
-  document?:
-    | ({
-        relationTo: 'users'
-        value: number | User
-      } | null)
-    | ({
-        relationTo: 'media'
-        value: number | Media
-      } | null)
-    | ({
-        relationTo: 'pages'
-        value: number | Page
-      } | null)
-    | ({
-        relationTo: 'projects'
-        value: number | Project
-      } | null)
-    | ({
-        relationTo: 'blogs'
-        value: number | Blog
-      } | null)
-    | ({
-        relationTo: 'contact-forms'
-        value: number | ContactForm
-      } | null)
-    | ({
-        relationTo: 'site-settings'
-        value: number | SiteSetting
-      } | null)
-  globalSlug?: string | null
-  user: {
-    relationTo: 'users'
-    value: number | User
-  }
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-preferences".
- */
-export interface PayloadPreference {
-  id: number
-  user: {
-    relationTo: 'users'
-    value: number | User
-  }
-  key?: string | null
-  value?:
-    | {
-        [k: string]: unknown
-      }
-    | unknown[]
-    | string
-    | number
-    | boolean
-    | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-migrations".
- */
-export interface PayloadMigration {
-  id: number
-  name?: string | null
-  batch?: number | null
-  updatedAt: string
-  createdAt: string
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
- */
-export interface UsersSelect<T extends boolean = true> {
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
-  email?: T
-  resetPasswordToken?: T
-  resetPasswordExpiration?: T
-  salt?: T
-  hash?: T
-  loginAttempts?: T
-  lockUntil?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
- */
-export interface MediaSelect<T extends boolean = true> {
-  alt?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
-  url?: T
-  thumbnailURL?: T
-  filename?: T
-  mimeType?: T
-  filesize?: T
-  width?: T
-  height?: T
-  focalX?: T
-  focalY?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "pages_select".
- */
-export interface PagesSelect<T extends boolean = true> {
-  title?: T
-  pageLayout?:
-    | T
-    | {
-        homeBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              profileImage?: T
-              socialLinks?:
-                | T
-                | {
-                    platform?: T
-                    url?: T
-                    id?: T
-                  }
-              id?: T
-              blockName?: T
-            }
-        stacksBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              techStacks?:
-                | T
-                | {
-                    category?: T
-                    technologies?:
-                      | T
-                      | {
-                          name?: T
-                          icon?: T
-                          id?: T
-                        }
-                    id?: T
-                  }
-              id?: T
-              blockName?: T
-            }
-        aboutBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              profileImage?: T
-              content?: T
-              buttonText?: T
-              buttonPath?: T
-              codeProfiles?:
-                | T
-                | {
-                    heading?: T
-                    profiles?:
-                      | T
-                      | {
-                          title?: T
-                          url?: T
-                          image?: T
-                          id?: T
-                        }
-                  }
-              id?: T
-              blockName?: T
-            }
-        experiencesBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              experiences?:
-                | T
-                | {
-                    title?: T
-                    company?: T
-                    companyLogo?: T
-                    location?: T
-                    startDate?: T
-                    endDate?: T
-                    current?: T
-                    description?: T
-                    skills?:
-                      | T
-                      | {
-                          skill?: T
-                          id?: T
-                        }
-                    achievements?:
-                      | T
-                      | {
-                          heading?: T
-                          description?: T
-                          id?: T
-                        }
-                    id?: T
-                  }
-              id?: T
-              blockName?: T
-            }
-        contactBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              email?: T
-              phone?: T
-              formFields?:
-                | T
-                | {
-                    label?: T
-                    type?: T
-                    required?: T
-                    id?: T
-                  }
-              submitButtonText?: T
-              id?: T
-              blockName?: T
-            }
-        formBlock?:
-          | T
-          | {
-              heading?: T
-              formFields?:
-                | T
-                | {
-                    label?: T
-                    type?: T
-                    required?: T
-                    id?: T
-                  }
-              submitButtonText?: T
-              id?: T
-              blockName?: T
-            }
-        disqusCommentBlock?:
-          | T
-          | {
-              disqusShortname?: T
-              identifier?: T
-              id?: T
-              blockName?: T
-            }
-        listBlock?:
-          | T
-          | {
-              heading?: T
-              subheading?: T
-              items?:
-                | T
-                | {
-                    title?: T
-                    description?: T
-                    image?: T
-                    link?: T
-                    id?: T
-                  }
-              layout?: T
-              id?: T
-              blockName?: T
-            }
-      }
-  meta?:
-    | T
-    | {
-        title?: T
-        description?: T
-        image?: T
-        keywords?: T
-      }
-  slugMode?: T
-  slug?: T
-  pathMode?: T
-  path?: T
-  parent?: T
-  breadcrumbs?:
-    | T
-    | {
-        label?: T
-        url?: T
-        id?: T
-      }
-  status?: T
-  isHomePage?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "projects_select".
- */
-export interface ProjectsSelect<T extends boolean = true> {
-  projectType?: T
-  projectName?: T
-  projectImage?: T
-  summary?: T
-  projectLinks?:
-    | T
-    | {
-        serviceName?: T
-        serviceLink?: T
-        id?: T
-      }
-  features?:
-    | T
-    | {
-        feature?: T
-        id?: T
-      }
-  techStack?:
-    | T
-    | {
-        technology?: T
-        technologyIcon?: T
-        id?: T
-      }
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "blogs_select".
- */
-export interface BlogsSelect<T extends boolean = true> {
-  title?: T
-  platform?: T
-  featuredImage?: T
-  summary?: T
-  externalLink?: T
-  publishedDate?: T
-  tags?:
-    | T
-    | {
-        tag?: T
-        id?: T
-      }
-  slug?: T
-  updatedAt?: T
-  createdAt?: T
-  _status?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-forms_select".
- */
-export interface ContactFormsSelect<T extends boolean = true> {
-  name?: T
-  email?: T
-  phone?: T
-  subject?: T
-  message?: T
-  status?: T
-  priority?: T
-  internalNotes?: T
-  source?: T
-  ipAddress?: T
-  updatedAt?: T
-  createdAt?: T
+  updatedAt?: string | null
+  createdAt?: string | null
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1111,41 +1405,10 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         enabled?: T
         disclosure?: T
       }
-  updatedAt?: T
-  createdAt?: T
   _status?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-locked-documents_select".
- */
-export interface PayloadLockedDocumentsSelect<T extends boolean = true> {
-  document?: T
-  globalSlug?: T
-  user?: T
   updatedAt?: T
   createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-preferences_select".
- */
-export interface PayloadPreferencesSelect<T extends boolean = true> {
-  user?: T
-  key?: T
-  value?: T
-  updatedAt?: T
-  createdAt?: T
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-migrations_select".
- */
-export interface PayloadMigrationsSelect<T extends boolean = true> {
-  name?: T
-  batch?: T
-  updatedAt?: T
-  createdAt?: T
+  globalType?: T
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
