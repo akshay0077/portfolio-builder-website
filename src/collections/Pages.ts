@@ -1,19 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { blocks } from '../blocks/blockTypes'
 
-interface PageData {
-  slugMode?: 'generate' | 'custom'
-  pathMode?: 'generate' | 'custom'
-  title?: string
-  parent?: string
-}
-
 export const Pages: CollectionConfig = {
   slug: 'pages',
   admin: {
-    useAsTitle: 'title',
     group: 'Content',
-    defaultColumns: ['title', 'slug', 'status'],
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'slug'],
   },
   versions: {
     drafts: true,
@@ -69,12 +62,12 @@ export const Pages: CollectionConfig = {
       type: 'text',
       admin: {
         position: 'sidebar',
-        condition: (data: PageData) => data?.slugMode === 'custom',
+        condition: (data) => data.slugMode === 'custom',
       },
       hooks: {
         beforeValidate: [
-          ({ value, data }: { value: string | undefined; data: PageData }) => {
-            if (data?.slugMode === 'generate' && data?.title) {
+          ({ value, data }) => {
+            if (data.slugMode === 'generate' && data?.title) {
               return data.title
                 .toLowerCase()
                 .replace(/[^\w\s]/gi, '')
@@ -109,20 +102,12 @@ export const Pages: CollectionConfig = {
       type: 'text',
       admin: {
         position: 'sidebar',
-        condition: (data: PageData) => data?.pathMode === 'custom',
+        condition: (data) => data.pathMode === 'custom',
       },
       hooks: {
         beforeValidate: [
-          ({
-            value,
-            data,
-            siblingData,
-          }: {
-            value: string | undefined
-            data: PageData
-            siblingData: { parent?: string; slug?: string }
-          }) => {
-            if (data?.pathMode === 'generate') {
+          ({ value, data, siblingData }) => {
+            if (data.pathMode === 'generate') {
               const segments = []
               if (siblingData.parent) {
                 // You would need to fetch the parent's path here
@@ -171,6 +156,24 @@ export const Pages: CollectionConfig = {
           required: true,
         },
       ],
+    },
+    {
+      name: 'status',
+      type: 'select',
+      options: [
+        {
+          label: 'Draft',
+          value: 'draft',
+        },
+        {
+          label: 'Published',
+          value: 'published',
+        },
+      ],
+      defaultValue: 'draft',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'isHomePage',
