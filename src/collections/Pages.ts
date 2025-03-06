@@ -6,7 +6,7 @@ export const Pages: CollectionConfig = {
   admin: {
     group: 'Content',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug'],
+    defaultColumns: ['title', 'path', 'updated_at', 'created_at'],
   },
   versions: {
     drafts: true,
@@ -38,6 +38,7 @@ export const Pages: CollectionConfig = {
         // because we've set tabbedUI: true in the plugin config
       ],
     },
+
     {
       name: 'slugMode',
       type: 'radio',
@@ -110,7 +111,7 @@ export const Pages: CollectionConfig = {
             if (data.pathMode === 'generate') {
               const segments = []
               if (siblingData.parent) {
-                // You would need to fetch the parent's path here
+                // You would need to fetch th parent's path here
                 segments.push('parent-path')
               }
               segments.push(siblingData.slug || '')
@@ -158,31 +159,24 @@ export const Pages: CollectionConfig = {
       ],
     },
     {
-      name: 'status',
-      type: 'select',
-      options: [
+      name: 'pageSettings',
+      type: 'group',
+      label: 'Page Settings',
+      admin: {
+        position: 'sidebar',
+      },
+      fields: [
         {
-          label: 'Draft',
-          value: 'draft',
+          name: 'isHomePage',
+          type: 'checkbox',
+          label: 'Home Page',
         },
         {
-          label: 'Published',
-          value: 'published',
+          name: 'isDynamicPage',
+          type: 'checkbox',
+          label: 'Dynamic Page',
         },
       ],
-      defaultValue: 'draft',
-      admin: {
-        position: 'sidebar',
-      },
-    },
-    {
-      name: 'isHomePage',
-      type: 'checkbox',
-      label: 'Home Page',
-      admin: {
-        position: 'sidebar',
-        description: 'Is this the home page?',
-      },
     },
   ],
 }
