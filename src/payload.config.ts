@@ -5,9 +5,11 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
+import { Pages } from './collections/Pages'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -19,7 +21,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Pages],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -33,5 +35,26 @@ export default buildConfig({
   sharp,
   plugins: [
     // storage-adapter-placeholder
+    seoPlugin({
+      collections: ['pages'],
+      uploadsCollection: 'media',
+      tabbedUI: true,
+      generateTitle: ({ doc }: { doc: any }) => {
+        return `${doc.title} | Portfolio`
+      },
+      generateDescription: ({ doc }: { doc: any }) => {
+        // You can customize this based on your content structure
+        return doc.content?.slice(0, 150) || ''
+      },
+      // Add custom fields to the SEO field group
+      fields: ({ defaultFields }) => [
+        ...defaultFields,
+        {
+          name: 'keywords',
+          type: 'text',
+          label: 'Meta Keywords',
+        },
+      ],
+    }),
   ],
 })
