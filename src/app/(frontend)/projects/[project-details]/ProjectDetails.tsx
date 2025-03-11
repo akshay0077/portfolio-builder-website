@@ -110,7 +110,7 @@ export default function ProjectDetails({ project, allProjects }: Props) {
 
   return (
     <div className="min-h-screen bg-[#0A0F1C] py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto mt-12">
+      <div className="max-w-4xl mx-auto mt-18">
         <div className="flex justify-between items-center mb-10">
           <motion.button
             onClick={() => handleNavigation(prevProject.slug)}
