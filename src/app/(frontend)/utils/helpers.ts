@@ -15,15 +15,16 @@ export const truncateText = (text: string, maxLength: number): string => {
   return `${text.slice(0, maxLength)}...`
 }
 
-export const debounce = <T extends (...args: any[]) => any>(
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const debounce = <T extends (...funcArgs: any[]) => any>(
   func: T,
   wait: number
-): ((...args: Parameters<T>) => void) => {
+): ((...funcArgs: Parameters<T>) => void) => {
   let timeout: NodeJS.Timeout
 
-  return (...args: Parameters<T>) => {
+  return (...funcArgs: Parameters<T>) => {
     clearTimeout(timeout)
-    timeout = setTimeout(() => func(...args), wait)
+    timeout = setTimeout(() => func(...funcArgs), wait)
   }
 }
 
