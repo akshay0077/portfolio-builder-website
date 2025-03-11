@@ -2,9 +2,9 @@
 
 import React from 'react'
 import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { useTheme } from '../context/ThemeContext'
-import { SocialLinks } from './SocialLinks'
 
 interface NavigationProps {
   menuLinks: Array<{
@@ -33,11 +33,18 @@ interface NavigationProps {
   }>
 }
 
-export const Navigation: React.FC<NavigationProps> = ({
-  menuLinks,
-  socialLinks,
-}) => {
+export const Navigation: React.FC<NavigationProps> = ({ menuLinks }) => {
   const { theme, toggleTheme } = useTheme()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  // Check if blogs link already exists in menuLinks
+  const hasBlogs = menuLinks.some(
+    (item) =>
+      (item.link.type === 'internal' && item.link.page?.path === '/blogs') ||
+      item.link.label.toLowerCase() === 'blogs' ||
+      item.link.label.toLowerCase() === 'blog'
+  )
 
   return (
     <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
@@ -52,7 +59,8 @@ export const Navigation: React.FC<NavigationProps> = ({
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mr-6"
+            onClick={() => router.push('/')}
+            className="w-10 h-10 rounded-full cursor-pointer bg-purple-500/20 flex items-center justify-center text-purple-400 mr-6"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -70,11 +78,11 @@ export const Navigation: React.FC<NavigationProps> = ({
               const linkUrl =
                 item.link.type === 'internal' && item.link.page
                   ? item.link.page.path
-                  : item.link.url || '#'
+                  : (item.link.url ?? '#')
 
               return (
                 <motion.div
-                  key={item.id || item.link.label}
+                  key={item.id ?? item.link.label}
                   whileHover={{ y: -2 }}
                   whileTap={{ y: 0 }}
                 >
@@ -91,6 +99,20 @@ export const Navigation: React.FC<NavigationProps> = ({
                 </motion.div>
               )
             })}
+
+            {/* Add Blogs link if it doesn't exist in menuLinks */}
+            {!hasBlogs && (
+              <motion.div whileHover={{ y: -2 }} whileTap={{ y: 0 }}>
+                <Link
+                  href="/blogs"
+                  className={`text-gray-400 hover:text-white transition-colors duration-300 text-sm font-medium ${
+                    pathname === '/blogs' ? 'text-white' : ''
+                  }`}
+                >
+                  Blogs
+                </Link>
+              </motion.div>
+            )}
           </div>
 
           {/* Theme Toggle */}

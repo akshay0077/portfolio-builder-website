@@ -57,7 +57,8 @@ export default function ProjectDetails({ project, allProjects }: Props) {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.15,
+        delayChildren: 0.2,
       },
     },
   }
@@ -68,7 +69,7 @@ export default function ProjectDetails({ project, allProjects }: Props) {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.5,
+        duration: 0.7,
         ease: 'easeOut',
       },
     },
@@ -84,17 +85,23 @@ export default function ProjectDetails({ project, allProjects }: Props) {
       opacity: 1,
       transition: {
         pathLength: {
-          duration: 4,
+          duration: 8, // Slower animation
           ease: 'easeInOut',
           repeat: Infinity,
           repeatType: 'loop',
-          repeatDelay: 0.5,
+          repeatDelay: 1,
         },
         opacity: {
-          duration: 0.5,
+          duration: 1,
         },
       },
     },
+  }
+
+  const navButtonVariants = {
+    initial: { scale: 1 },
+    hover: { scale: 1.1, backgroundColor: 'rgba(26, 31, 46, 0.9)' },
+    tap: { scale: 0.95 },
   }
 
   const handleNavigation = (projectSlug: string) => {
@@ -103,11 +110,15 @@ export default function ProjectDetails({ project, allProjects }: Props) {
 
   return (
     <div className="min-h-screen bg-[#0A0F1C] py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-5xl mx-auto mt-18">
-        <div className="flex justify-between items-center mb-12">
-          <button
+      <div className="max-w-4xl mx-auto mt-12">
+        <div className="flex justify-between items-center mb-10">
+          <motion.button
             onClick={() => handleNavigation(prevProject.slug)}
-            className="p-4 rounded-full bg-[#1A1F2E] text-white hover:bg-[#1A1F2E]/80 transition-colors hover:scale-110 active:scale-95 transform duration-200"
+            className="p-3 rounded-full bg-[#1A1F2E] text-white transition-colors transform"
+            variants={navButtonVariants}
+            initial="initial"
+            whileHover="hover"
+            whileTap="tap"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -115,7 +126,7 @@ export default function ProjectDetails({ project, allProjects }: Props) {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-5 h-5"
             >
               <path
                 strokeLinecap="round"
@@ -123,19 +134,24 @@ export default function ProjectDetails({ project, allProjects }: Props) {
                 d="M15.75 19.5L8.25 12l7.5-7.5"
               />
             </svg>
-          </button>
+          </motion.button>
 
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl font-bold text-white text-center"
+            transition={{ duration: 0.6 }}
+            className="text-4xl font-bold text-white text-center tracking-tight"
           >
             {project.projectName}
           </motion.h1>
 
-          <button
+          <motion.button
             onClick={() => handleNavigation(nextProject.slug)}
-            className="p-4 rounded-full bg-[#1A1F2E] text-white hover:bg-[#1A1F2E]/80 transition-colors hover:scale-110 active:scale-95 transform duration-200"
+            className="p-3 rounded-full bg-[#1A1F2E] text-white transition-colors transform"
+            variants={navButtonVariants}
+            initial="initial"
+            whileHover="hover"
+            whileTap="tap"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -143,7 +159,7 @@ export default function ProjectDetails({ project, allProjects }: Props) {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className="w-6 h-6"
+              className="w-5 h-5"
             >
               <path
                 strokeLinecap="round"
@@ -151,21 +167,25 @@ export default function ProjectDetails({ project, allProjects }: Props) {
                 d="M8.25 4.5l7.5 7.5-7.5 7.5"
               />
             </svg>
-          </button>
+          </motion.button>
         </div>
 
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="space-y-12"
+          className="space-y-10"
         >
-          <div className="relative max-w-2xl mx-auto">
+          <div className="relative max-w-xl mx-auto">
             <motion.div
               variants={itemVariants}
-              className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#1A1F2E] p-1"
+              className="relative aspect-[16/9] rounded-lg overflow-hidden bg-[#1A1F2E] p-2"
+              whileHover={{
+                boxShadow: '0 0 25px rgba(100, 255, 218, 0.2)',
+                transition: { duration: 0.5 },
+              }}
             >
-              <div className="relative w-full h-full rounded-xl overflow-hidden">
+              <div className="relative w-full h-full rounded-md overflow-hidden">
                 <Image
                   src={project.projectImage.url}
                   alt={project.projectName}
@@ -182,53 +202,66 @@ export default function ProjectDetails({ project, allProjects }: Props) {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <motion.rect
-                  width="98"
-                  height="98"
-                  x="1"
-                  y="1"
-                  rx="8"
+                  width="176"
+                  height="100"
+                  x="-38"
+                  y="0"
+                  rx="4"
                   stroke="#64FFDA"
-                  strokeWidth="0.5"
-                  strokeLinecap="round"
+                  strokeWidth="1"
+                  strokeLinecap="square"
+                  strokeLinejoin="miter"
                   initial="hidden"
                   animate="visible"
                   variants={borderAnimation}
-                  className="w-full h-full"
+                  className="w-44 h-full"
                 />
               </svg>
             </motion.div>
           </div>
 
-          <div className="max-w-2xl mx-auto space-y-8">
+          <div className="max-w-2xl mx-auto space-y-6">
             <motion.div
               variants={itemVariants}
-              className="bg-[#1A1F2E] rounded-2xl p-8"
+              className="bg-[#1A1F2E] rounded-lg p-6 shadow-lg"
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.3 },
+              }}
             >
-              <h2 className="inline-block text-2xl font-semibold text-white mb-6 px-6 py-2 bg-[#64FFDA]/20 rounded-full">
+              <h2 className="inline-block text-xl font-semibold text-white mb-4 px-4 py-1.5 bg-[#64FFDA]/20 rounded-md">
                 Summary
               </h2>
-              <p className="text-gray-300 leading-relaxed">{project.summary}</p>
+              <p className="text-gray-300 leading-relaxed text-sm md:text-base">
+                {project.summary}
+              </p>
             </motion.div>
 
             <motion.div
               variants={itemVariants}
-              className="bg-[#1A1F2E] rounded-2xl p-8"
+              className="bg-[#1A1F2E] rounded-lg p-6 shadow-lg"
+              whileHover={{
+                y: -5,
+                transition: { duration: 0.3 },
+              }}
             >
-              <h2 className="inline-block text-2xl font-semibold text-white mb-6 px-6 py-2 bg-[#64FFDA]/20 rounded-full">
+              <h2 className="inline-block text-xl font-semibold text-white mb-4 px-4 py-1.5 bg-[#64FFDA]/20 rounded-md">
                 Project Links
               </h2>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3">
                 {project.projectLinks.map((link) => (
-                  <a
+                  <motion.a
                     key={link.id}
                     href={link.serviceLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 bg-[#0A0F1C] text-[#64FFDA] rounded-full hover:bg-[#0A0F1C]/80 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-[#0A0F1C] text-[#64FFDA] rounded-md hover:bg-[#0A0F1C]/80 transition-colors text-sm"
+                    whileHover={{ scale: 1.05, x: 3 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     {link.serviceName === 'Github' ? (
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -245,81 +278,132 @@ export default function ProjectDetails({ project, allProjects }: Props) {
                         viewBox="0 0 24 24"
                         strokeWidth={2}
                         stroke="currentColor"
-                        className="w-5 h-5"
+                        className="w-4 h-4"
                       >
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418"
+                          d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
                         />
                       </svg>
                     )}
-                    <span>{link.serviceName}</span>
-                  </a>
+                    {link.serviceName}
+                  </motion.a>
                 ))}
               </div>
             </motion.div>
 
-            <motion.div
-              variants={itemVariants}
-              className="bg-[#1A1F2E] rounded-2xl p-8"
-            >
-              <h2 className="inline-block text-2xl font-semibold text-white mb-6 px-6 py-2 bg-[#64FFDA]/20 rounded-full">
-                Features
-              </h2>
-              <ul className="grid grid-cols-1 gap-4">
-                {project.features.map((feature) => (
-                  <motion.li
-                    key={feature.id}
-                    variants={itemVariants}
-                    className="flex items-start gap-3 bg-[#0A0F1C] rounded-xl p-4"
-                  >
-                    <svg
-                      className="w-6 h-6 text-[#64FFDA] mt-0.5 flex-shrink-0"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
+            {project.features && project.features.length > 0 && (
+              <motion.div
+                variants={itemVariants}
+                className="bg-[#1A1F2E] rounded-lg p-6 shadow-lg"
+                whileHover={{
+                  y: -5,
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <h2 className="inline-block text-xl font-semibold text-white mb-4 px-4 py-1.5 bg-[#64FFDA]/20 rounded-md">
+                  Key Features
+                </h2>
+                <ul className="space-y-2 pl-4">
+                  {project.features.map((feature) => (
+                    <motion.li
+                      key={feature.id}
+                      className="text-gray-300 text-sm md:text-base flex items-start gap-2"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.5 }}
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4"
-                      />
-                    </svg>
-                    <span className="text-gray-300">{feature.feature}</span>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
+                      <span className="text-[#64FFDA] mt-1">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4"
+                          />
+                        </svg>
+                      </span>
+                      {feature.feature}
+                    </motion.li>
+                  ))}
+                </ul>
+              </motion.div>
+            )}
+
+            {project.techStack && project.techStack.length > 0 && (
+              <motion.div
+                variants={itemVariants}
+                className="bg-[#1A1F2E] rounded-lg p-6 shadow-lg"
+                whileHover={{
+                  y: -5,
+                  transition: { duration: 0.3 },
+                }}
+              >
+                <h2 className="inline-block text-xl font-semibold text-white mb-4 px-4 py-1.5 bg-[#64FFDA]/20 rounded-md">
+                  Tech Stack
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  {project.techStack.map((tech) => (
+                    <motion.div
+                      key={tech.id}
+                      className="flex items-center gap-2 px-3 py-1.5 bg-[#0A0F1C] text-gray-300 rounded-md text-sm"
+                      whileHover={{
+                        scale: 1.05,
+                        backgroundColor: 'rgba(10, 15, 28, 0.8)',
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {tech.technologyIcon && (
+                        <div className="relative w-4 h-4">
+                          <Image
+                            src={tech.technologyIcon.url}
+                            alt={tech.technology}
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+                      )}
+                      {tech.technology}
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
             <motion.div
               variants={itemVariants}
-              className="bg-[#1A1F2E] rounded-2xl p-8"
+              className="pt-8 flex justify-center"
             >
-              <h2 className="inline-block text-2xl font-semibold text-white mb-6 px-6 py-2 bg-[#64FFDA]/20 rounded-full">
-                Tech Stack
-              </h2>
-              <div className="flex flex-wrap gap-4">
-                {project.techStack.map((tech) => (
-                  <motion.div
-                    key={tech.id}
-                    variants={itemVariants}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#0A0F1C] text-[#64FFDA] rounded-full"
+              <Link href="/projects">
+                <motion.button
+                  className="px-6 py-2 bg-[#1A1F2E] text-[#64FFDA] rounded-md flex items-center gap-2 hover:bg-[#1A1F2E]/80 transition-colors"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-4 h-4"
                   >
-                    {tech.technologyIcon && (
-                      <Image
-                        src={tech.technologyIcon.url}
-                        alt={tech.technology}
-                        width={20}
-                        height={20}
-                        className="rounded-full"
-                      />
-                    )}
-                    <span>{tech.technology}</span>
-                  </motion.div>
-                ))}
-              </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3"
+                    />
+                  </svg>
+                  Back to Projects
+                </motion.button>
+              </Link>
             </motion.div>
           </div>
         </motion.div>
