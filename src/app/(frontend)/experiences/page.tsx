@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
+import { fetchPageBySlug } from '../utils/api'
 
 interface WorkDetail {
   id: string
@@ -61,37 +62,38 @@ export default function ExperiencesPage() {
   const [experiencesData, setExperiencesData] =
     useState<ExperiencesData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchExperiencesData = async () => {
       try {
-        const response = await fetch('/api/pages/2')
-        if (!response.ok) {
-          throw new Error('Failed to fetch experiences')
-        }
-        const data = await response.json()
+        setIsLoading(true)
+        const data = await fetchPageBySlug('experiences')
         setExperiencesData(data)
+        setError(null)
       } catch (error) {
         console.error('Error fetching experiences data:', error)
         setError('Failed to load experiences. Please try again later.')
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchExperiencesData()
   }, [])
 
-  if (error) {
+  if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-red-400">
-        {error}
+      <div className="min-h-screen flex items-center justify-center">
+        Loading...
       </div>
     )
   }
 
-  if (!experiencesData) {
+  if (error || !experiencesData) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        Loading...
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {error || 'Failed to load experiences data'}
       </div>
     )
   }
