@@ -7,6 +7,12 @@ export const Users: CollectionConfig = {
     group: 'Auth',
     useAsTitle: 'email',
   },
+  access: {
+    create: () => true,
+    read: () => true,
+    update: () => true,
+    delete: () => true,
+  },
   versions: {
     drafts: true,
   },

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { fetchBlogs } from '../utils/api'
+import { fetchBlogs } from '@/app/(frontend)/utils/api'
 
 interface BlogTag {
   id: string
@@ -35,8 +35,11 @@ export default function BlogsPage() {
     const loadBlogs = async () => {
       try {
         setIsLoading(true)
-        const blogsData = await fetchBlogs()
-        setBlogs(blogsData)
+        const response = await fetchBlogs()
+        if (!response) {
+          throw new Error('No data received from the API')
+        }
+        setBlogs(response)
         setError(null)
       } catch (error) {
         console.error('Error loading blogs:', error)
