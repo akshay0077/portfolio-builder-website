@@ -15,10 +15,6 @@ interface HeroProps {
   }>
 }
 
-const getTextFromRichText = (richText: WorkDetail['description']) => {
-  return richText.root.children[0].children[0].text
-}
-
 export const Hero: React.FC<HeroProps> = (props) => {
   return <ClientHero {...props} />
 }

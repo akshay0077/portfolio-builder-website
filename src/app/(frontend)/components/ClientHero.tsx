@@ -4,7 +4,6 @@ import React from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { SocialLinks } from './SocialLinks'
-import Link from 'next/link'
 
 interface HeroProps {
   title: string

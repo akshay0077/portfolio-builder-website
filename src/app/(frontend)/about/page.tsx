@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 import { fetchPageBySlug } from '../utils/api'
 
 interface DetailPoint {
@@ -109,16 +110,48 @@ export default function AboutPage() {
     codeProfiles,
   } = aboutData.pageLayout[0]
 
+  const pageVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: 'easeOut',
+        staggerChildren: 0.2,
+      },
+    },
+    exit: { opacity: 0, y: -20 },
+  }
+
+  const itemVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+  }
+
   return (
-    <div className="min-h-screen bg-[#0F1729] text-white py-16">
+    <motion.div
+      className="min-h-screen bg-[#0F1729] text-white py-16"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
       <div className="container mx-auto px-4 max-w-4xl mt-18">
-        <div className="text-center mb-8">
+        <motion.div className="text-center mb-8" variants={itemVariants}>
           <h1 className="text-4xl font-bold mb-4">{heading}</h1>
           <p className="text-blue-400">{subheading}</p>
-        </div>
+        </motion.div>
 
-        <div className="flex flex-col items-center mb-12">
-          <div className="w-48 h-48 rounded-full overflow-hidden mb-6">
+        <motion.div
+          className="flex flex-col items-center mb-12"
+          variants={itemVariants}
+        >
+          <motion.div
+            className="w-48 h-48 rounded-full overflow-hidden mb-6"
+            whileHover={{ scale: 1.05 }}
+            transition={{ duration: 0.2 }}
+          >
             <Image
               src={profileImage.url}
               alt={profileImage.alt}
@@ -126,59 +159,75 @@ export default function AboutPage() {
               height={192}
               className="object-cover w-full h-full"
             />
-          </div>
-          <p className="text-center mb-6">
+          </motion.div>
+          <motion.p className="text-center mb-6" variants={itemVariants}>
             {aboutYourself.root.children[0].children[0].text}
-          </p>
-          <Link
-            href={`/${buttonPath}`}
-            className="bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
-          >
-            {buttonText}
-          </Link>
-        </div>
+          </motion.p>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Link
+              href={`/${buttonPath}`}
+              className="bg-gradient-to-r from-blue-400 to-purple-500 text-white px-6 py-2 rounded-full hover:opacity-90 transition-opacity"
+            >
+              {buttonText}
+            </Link>
+          </motion.div>
+        </motion.div>
 
         <div className="space-y-8">
           {details.map((section) => (
-            <div key={section.id} className="bg-[#1A2333] rounded-lg p-6">
+            <motion.div
+              key={section.id}
+              className="bg-[#1A2333] rounded-lg p-6"
+              variants={itemVariants}
+              whileHover={{ y: -5, transition: { duration: 0.2 } }}
+            >
               <h2 className="text-xl font-semibold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 inline-block text-transparent bg-clip-text">
                 {section.detailsTitle}
               </h2>
               <ul className="space-y-3">
                 {section.detailPoints.map((point) => (
-                  <li key={point.id} className="flex items-start">
+                  <motion.li
+                    key={point.id}
+                    className="flex items-start"
+                    variants={itemVariants}
+                  >
                     <span className="text-blue-400 mr-2">•</span>
                     <span>{point.detailPoint}</span>
-                  </li>
+                  </motion.li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className="mt-12">
+        <motion.div className="mt-12" variants={itemVariants}>
           <h2 className="text-xl font-semibold mb-6 bg-gradient-to-r from-blue-400 to-purple-500 inline-block text-transparent bg-clip-text">
             {codeProfiles.heading}
           </h2>
           <div className="flex flex-wrap gap-4 justify-center">
             {codeProfiles.profiles.map((profile) => (
-              <Link
+              <motion.div
                 key={profile.id}
-                href={profile.url}
-                className="bg-[#1A2333] p-4 rounded-lg hover:bg-[#242E42] transition-colors"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <Image
-                  src={profile.image.url}
-                  alt={profile.title}
-                  width={100}
-                  height={50}
-                  className="object-contain"
-                />
-              </Link>
+                <Link
+                  href={profile.url}
+                  className="bg-[#1A2333] p-4 rounded-lg hover:bg-[#242E42] transition-colors"
+                >
+                  <Image
+                    src={profile.image.url}
+                    alt={profile.title}
+                    width={100}
+                    height={50}
+                    className="object-contain"
+                  />
+                </Link>
+              </motion.div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   )
 }

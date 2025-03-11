@@ -1,8 +1,7 @@
 'use client'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 interface ProjectLink {
   id: string
@@ -94,16 +93,6 @@ export default function Projects() {
     initial: { scale: 1 },
     hover: { scale: 1.05 },
     tap: { scale: 0.95 },
-  }
-
-  // Function to handle external link clicks
-  const handleExternalLinkClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    url: string
-  ) => {
-    e.preventDefault()
-    e.stopPropagation()
-    window.open(url, '_blank', 'noopener,noreferrer')
   }
 
   if (loading) {

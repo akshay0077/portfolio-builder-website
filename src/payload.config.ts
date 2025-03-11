@@ -44,9 +44,11 @@ export default buildConfig({
       collections: ['pages'],
       uploadsCollection: 'media',
       tabbedUI: true,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       generateTitle: ({ doc }: { doc: any }) => {
         return `${doc.title} | Portfolio`
       },
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       generateDescription: ({ doc }: { doc: any }) => {
         // You can customize this based on your content structure
         return doc.content?.slice(0, 150) || ''
