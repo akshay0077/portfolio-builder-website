@@ -97,6 +97,7 @@ export async function fetchBlogs() {
 
     if (data.docs) {
       // Process the blogs data to ensure image URLs are correct
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const processedBlogs = data.docs.map((blog: any) => ({
         ...blog,
         featuredImage: blog.featuredImage

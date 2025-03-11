@@ -3,6 +3,23 @@ import '../globals.css'
 import { Navigation } from './components/Navigation'
 import { ThemeProvider } from './context/ThemeContext'
 
+interface MenuLink {
+  link: {
+    icon?: {
+      id: string
+    } | null
+    page?: {
+      slug?: string
+    } | null
+  }
+}
+
+interface SocialLink {
+  icon?: {
+    id: string
+  } | null
+}
+
 async function getSiteSettings() {
   const res = await fetch('http://localhost:3000/api/globals/site-settings')
   if (!res.ok) {
@@ -25,7 +42,7 @@ export default async function RootLayout({
 
   // Transform menu links to handle Media type
   const transformedMenuLinks =
-    siteSettings?.menuLinks?.map((item: any) => ({
+    siteSettings?.menuLinks?.map((item: MenuLink) => ({
       ...item,
       link: {
         ...item.link,
@@ -42,7 +59,7 @@ export default async function RootLayout({
 
   // Transform social links to handle Media type
   const transformedSocialLinks =
-    siteSettings?.socialLinks?.map((item: any) => ({
+    siteSettings?.socialLinks?.map((item: SocialLink) => ({
       ...item,
       icon:
         item.icon && typeof item.icon !== 'number'

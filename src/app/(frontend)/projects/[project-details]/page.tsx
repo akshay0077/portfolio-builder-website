@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import ProjectDetails from './ProjectDetails'
+import { Metadata } from 'next'
 
 async function getProjects() {
   try {
@@ -17,6 +18,16 @@ async function getProjects() {
   } catch (error) {
     console.error('Error fetching projects:', error)
     return []
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { 'project-details': string }
+}): Promise<Metadata> {
+  return {
+    title: `Project - ${params['project-details']}`,
   }
 }
 

@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
-import Image from 'next/image'
 import { format } from 'date-fns'
 
 interface ExperienceProps {
@@ -43,7 +42,15 @@ export const Experience: React.FC<ExperienceProps> = ({ experience }) => {
   }
 
   // Extract text from rich text description
-  const getDescriptionText = (description: any) => {
+  const getDescriptionText = (description: {
+    root: {
+      children: Array<{
+        children: Array<{
+          text: string
+        }>
+      }>
+    }
+  }) => {
     return description.root.children[0].children[0].text
   }
 
