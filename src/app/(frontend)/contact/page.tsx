@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { fetchPageBySlug } from '../utils/api'
 
 interface ContactReason {
   id: string
@@ -27,15 +28,19 @@ export default function Contact() {
   })
   const [data, setData] = useState<ContactData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch('/api/pages/5')
-        const jsonData = await res.json()
-        setData(jsonData.pageLayout[0] as ContactData)
+        setIsLoading(true)
+        // Fetch the contact page by slug instead of ID
+        const pageData = await fetchPageBySlug('contact')
+        setData(pageData.pageLayout[0] as ContactData)
+        setError(null)
       } catch (error) {
         console.error('Error fetching contact data:', error)
+        setError('Failed to load contact page data. Please try again later.')
       } finally {
         setIsLoading(false)
       }
@@ -44,7 +49,7 @@ export default function Contact() {
     fetchData()
   }, [])
 
-  if (isLoading || !data) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800">
         <motion.div
@@ -52,6 +57,14 @@ export default function Contact() {
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
           className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"
         />
+      </div>
+    )
+  }
+
+  if (error || !data) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-900 to-gray-800 text-red-500">
+        {error || 'Failed to load contact page data'}
       </div>
     )
   }

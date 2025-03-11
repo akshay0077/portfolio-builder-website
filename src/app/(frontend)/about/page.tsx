@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { fetchPageBySlug } from '../utils/api'
 
 interface DetailPoint {
   id: string
@@ -60,25 +61,39 @@ interface AboutData {
 
 export default function AboutPage() {
   const [aboutData, setAboutData] = useState<AboutData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchAboutData = async () => {
       try {
-        const response = await fetch('/api/pages/3')
-        const data = await response.json()
+        setIsLoading(true)
+        const data = await fetchPageBySlug('about')
         setAboutData(data)
+        setError(null)
       } catch (error) {
         console.error('Error fetching about data:', error)
+        setError('Failed to load about page data. Please try again later.')
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchAboutData()
   }, [])
 
-  if (!aboutData) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         Loading...
+      </div>
+    )
+  }
+
+  if (error || !aboutData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {error || 'Failed to load about page data'}
       </div>
     )
   }
