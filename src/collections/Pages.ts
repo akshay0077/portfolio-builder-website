@@ -7,6 +7,7 @@ export const Pages: CollectionConfig = {
     group: 'Content',
     useAsTitle: 'title',
     defaultColumns: ['title', 'path', 'updated_at', 'created_at'],
+    hideAPIURL: true,
   },
   versions: {
     drafts: true,

@@ -5,17 +5,13 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 ## 🌟 Features
 
 - 🎨 Modern and Clean UI Design
-- 🌓 Dark/Light Mode Support
-- 📱 Fully Responsive Layout
 - ⚡ Optimized Performance
 - 🔍 SEO Friendly
 - 🎭 Smooth Page Transitions & Animations
 - 🔒 Type-Safe Development with TypeScript
 - 📝 Headless CMS with PayloadCMS
-- 🖼️ Advanced Image Optimization
 - 🌐 REST API Integration
 - 🔄 Real-time Content Updates
-- 🎯 Custom Admin Dashboard
 
 ## 🛠️ Tech Stack
 
@@ -24,10 +20,7 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 - ⚛️ Next.js 14 (App Router)
 - 💅 Tailwind CSS for Styling
 - 🎭 Framer Motion for Animations
-- 📝 TypeScript for Type Safety
-- 🎨 Responsive Design with Mobile-First Approach
 - 🔄 SWR for Data Fetching
-- 📱 Progressive Web App (PWA) Support
 
 ### Backend
 
@@ -36,8 +29,16 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 - 🔑 JWT Authentication & Role-based Authorization
 - 📤 Media Upload with Image Optimization
 - 🔄 RESTful APIs
-- 🔒 Secure Password Hashing
-- 📧 Email Integration
+
+### Infrastructure & DevOps
+
+- 🏗️ Terraform for Infrastructure as Code
+- ☁️ AWS Cloud Infrastructure
+- 🔄 CI/CD with GitHub Actions
+- 🐳 Docker for Containerization
+- 🔍 AWS CloudWatch for Monitoring
+- 🔒 AWS IAM for Access Management
+- 🌐 AWS Route53 for DNS Management
 
 ### Development Tools
 
@@ -61,6 +62,7 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 ### Installation
 
 1. Clone the repository:
+
    ```
    git clone https://github.com/akshay0077/portfolio-builder-website.git
    cd portfolio-builder-website
@@ -69,36 +71,46 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 2. Install dependencies:
    ```bash
    npm install
+   ```
 
 ### or
+
 ```
 yarn install
 ```
 
 3. Set up environment variables:
-   ```bash
-   cp .env.example .env
-   ```
+
+```
+cp .env.example .env
+```
 
 4. Configure your PostgreSQL database and update the .env file:
-   ```env
-   DATABASE_URL="postgresql://username:password@localhost:5432/portfolio"
-   ```
+
+```
+DATABASE_URL="postgresql://username:password@localhost:5432/portfolio"
+```
 
 5. Run database migrations:
-   ```bash
-   npm run migrate
+
+```
+npm run migrate
+```
 
 ### or
+
 ```
 yarn migrate
 ```
 
 6. Start the development server:
-   ```bash
-   npm run dev
+
+```
+npm run dev
+```
 
 ### or
+
 ```
 yarn dev
 ```
@@ -108,9 +120,10 @@ The application will be available at \`http://localhost:3000`
 ### Docker Setup 🐳
 
 1. Build and run with Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
+
+```
+docker-compose up -d
+```
 
 2. Access the application:
 
@@ -136,6 +149,11 @@ portfolio-website-builder/
 │ ├── blocks/ # PayloadCMS block components
 │ ├── globals/ # PayloadCMS global configurations
 │ └── migrations/ # Database migrations
+├── infrastructure/ # Infrastructure as Code
+│ ├── terraform/ # Terraform configurations
+│ │ ├── environments/ # Environment-specific configs
+│ │ ├── modules/ # Reusable Terraform modules
+│ │ └── variables/ # Terraform variables
 ├── public/ # Static assets
 ├── media/ # Uploaded media files
 ├── tests/ # Test files
@@ -167,6 +185,7 @@ portfolio-website-builder/
 - 🎭 useAnimation - Animation controls
 
 ## 🛡️ Environment Variables
+
 ```
 ### Database
 
@@ -182,6 +201,16 @@ NEXT_PUBLIC_SERVER_URL=http://localhost:3000
 
 JWT_SECRET=your_jwt_secret
 COOKIE_SECRET=your_cookie_secret
+
+# AWS Configuration
+AWS_ACCESS_KEY_ID=your_aws_access_key
+AWS_SECRET_ACCESS_KEY=your_aws_secret_key
+AWS_REGION=your_aws_region
+
+# Infrastructure
+TERRAFORM_STATE_BUCKET=your_terraform_state_bucket
+TERRAFORM_STATE_KEY=your_terraform_state_key
+TERRAFORM_STATE_REGION=your_terraform_state_region
 
 # Email (Optional)
 
@@ -201,7 +230,6 @@ SMTP_PASSWORD=your_smtp_password
 - 🔒 Role-Based Access Control
 - 🔄 Real-time Content Preview
 - 📊 SEO Management
-- 🎨 Theme Customization
 
 ### Portfolio Sections
 
@@ -211,7 +239,6 @@ SMTP_PASSWORD=your_smtp_password
 - 📚 Blog with Categories
 - 📞 Contact Form with Validation
 - 🎯 Skills & Experience
-- 📊 Analytics Dashboard
 
 ### Performance Optimizations
 
@@ -219,7 +246,6 @@ SMTP_PASSWORD=your_smtp_password
 - 🚀 Code Splitting & Lazy Loading
 - 📦 Bundle Size Optimization
 - 🔄 Server-Side Rendering (SSR)
-- 📱 Progressive Web App
 - 🗃️ API Route Optimization
 - 💾 Response Caching
 
