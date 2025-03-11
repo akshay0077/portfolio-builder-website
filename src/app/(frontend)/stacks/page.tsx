@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { fetchPageBySlug } from '../utils/api'
 
 interface Technology {
   id: string
@@ -30,25 +31,40 @@ interface StacksData {
 
 export default function StacksPage() {
   const [stacksData, setStacksData] = useState<StacksData | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchStacksData = async () => {
       try {
-        const response = await fetch('/api/pages/4')
-        const data = await response.json()
+        setIsLoading(true)
+        // Fetch the stacks page by slug instead of ID
+        const data = await fetchPageBySlug('stacks')
         setStacksData(data)
+        setError(null)
       } catch (error) {
         console.error('Error fetching stacks data:', error)
+        setError('Failed to load stacks data. Please try again later.')
+      } finally {
+        setIsLoading(false)
       }
     }
 
     fetchStacksData()
   }, [])
 
-  if (!stacksData) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         Loading...
+      </div>
+    )
+  }
+
+  if (error || !stacksData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-red-500">
+        {error || 'Failed to load stacks data'}
       </div>
     )
   }
