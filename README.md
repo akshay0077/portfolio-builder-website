@@ -61,56 +61,56 @@ A modern, customizable portfolio builder powered by Next.js and PayloadCMS. Crea
 ### Installation
 
 1. Clone the repository:
-   \`\`\`bash
+   ```
    git clone https://github.com/akshay0077/portfolio-builder-website.git
    cd portfolio-builder-website
-   \`\`\`
+   ```
 
 2. Install dependencies:
-   \`\`\`bash
+   ```bash
    npm install
 
-# or
-
+### or
+```
 yarn install
-\`\`\`
+```
 
 3. Set up environment variables:
-   \`\`\`bash
+   ```bash
    cp .env.example .env
-   \`\`\`
+   ```
 
 4. Configure your PostgreSQL database and update the .env file:
-   \`\`\`env
+   ```env
    DATABASE_URL="postgresql://username:password@localhost:5432/portfolio"
-   \`\`\`
+   ```
 
 5. Run database migrations:
-   \`\`\`bash
+   ```bash
    npm run migrate
 
-# or
-
+### or
+```
 yarn migrate
-\`\`\`
+```
 
 6. Start the development server:
-   \`\`\`bash
+   ```bash
    npm run dev
 
-# or
-
+### or
+```
 yarn dev
-\`\`\`
+```
 
-The application will be available at \`http://localhost:3000\`
+The application will be available at \`http://localhost:3000`
 
 ### Docker Setup 🐳
 
 1. Build and run with Docker Compose:
-   \`\`\`bash
+   ```bash
    docker-compose up -d
-   \`\`\`
+   ```
 
 2. Access the application:
 
@@ -120,8 +120,8 @@ The application will be available at \`http://localhost:3000\`
 
 ## 📁 Project Structure
 
-\`\`\`
-portfolio-builder/
+```
+portfolio-website-builder/
 ├── src/
 │ ├── app/
 │ │ ├── (frontend)/ # Frontend components and pages
@@ -141,7 +141,7 @@ portfolio-builder/
 ├── tests/ # Test files
 ├── docker/ # Docker configuration files
 └── scripts/ # Utility scripts
-\`\`\`
+```
 
 ## 🎨 Components
 
@@ -167,10 +167,8 @@ portfolio-builder/
 - 🎭 useAnimation - Animation controls
 
 ## 🛡️ Environment Variables
-
-\`\`\`env
-
-# Database
+```
+### Database
 
 DATABASE_URL="postgresql://username:password@localhost:5432/portfolio"
 
@@ -191,7 +189,7 @@ SMTP_HOST=your_smtp_host
 SMTP_PORT=587
 SMTP_USER=your_smtp_user
 SMTP_PASSWORD=your_smtp_password
-\`\`\`
+```
 
 ## 🔥 Features in Detail
 
