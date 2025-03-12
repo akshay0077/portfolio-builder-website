@@ -71,8 +71,6 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission logic here
-    console.log({ ...formData, reason: selectedReason })
   }
 
   return (

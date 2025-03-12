@@ -21,7 +21,9 @@ interface SocialLink {
 }
 
 async function getSiteSettings() {
-  const res = await fetch('http://localhost:3000/api/globals/site-settings')
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/globals/site-settings`
+  )
   if (!res.ok) {
     throw new Error('Failed to fetch site settings')
   }
@@ -48,11 +50,13 @@ export default async function RootLayout({
         ...item.link,
         icon:
           item.link.icon && typeof item.link.icon !== 'number'
-            ? { url: `http://localhost:3000/api/media/${item.link.icon.id}` }
+            ? {
+                url: `${process.env.NEXT_PUBLIC_API_URL}/api/media/${item.link.icon.id}`,
+              }
             : null,
         page:
           typeof item.link.page === 'object'
-            ? { path: `/${item.link.page?.slug || ''}` }
+            ? { path: `/${item.link.page?.slug ?? ''}` }
             : null,
       },
     })) || []
@@ -63,7 +67,9 @@ export default async function RootLayout({
       ...item,
       icon:
         item.icon && typeof item.icon !== 'number'
-          ? { url: `http://localhost:3000/api/media/${item.icon.id}` }
+          ? {
+              url: `${process.env.NEXT_PUBLIC_API_URL}/api/media/${item.icon.id}`,
+            }
           : null,
     })) || []
 

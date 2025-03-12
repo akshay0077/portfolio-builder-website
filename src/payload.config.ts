@@ -40,7 +40,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     livePreview: {
-      url: 'http://localhost:3000',
+      url: `${process.env.NEXT_PUBLIC_API_URL}`,
       collections: ['pages'],
     },
   },

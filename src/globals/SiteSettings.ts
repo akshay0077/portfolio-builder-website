@@ -1,10 +1,9 @@
-import { CollectionConfig } from 'payload'
+import { GlobalConfig } from 'payload'
 
-const SiteSettings: CollectionConfig = {
+const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
   admin: {
     group: 'Settings',
-    useAsTitle: 'title',
   },
   access: {
     read: () => true,

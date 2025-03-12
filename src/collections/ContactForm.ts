@@ -168,12 +168,12 @@ export const ContactForm: CollectionConfig = {
   hooks: {
     // You can add email notification hooks here
     afterChange: [
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
       async ({ doc, operation }) => {
         // Here you can implement email notifications when new submissions are received
         if (operation === 'create') {
           // Send email notification to admin
           // You'll need to implement your email sending logic here
-          console.log('New contact form submission received:', doc)
         }
       },
     ],

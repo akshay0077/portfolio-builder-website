@@ -10,9 +10,9 @@ export function useIntersectionObserver({
   threshold = 0,
   root = null,
   rootMargin = '0px',
-}: UseIntersectionObserverProps = {}): [RefObject<Element>, boolean] {
+}: UseIntersectionObserverProps = {}): [RefObject<Element | null>, boolean] {
   const [isIntersecting, setIsIntersecting] = useState(false)
-  const elementRef = useRef<Element>(null)
+  const elementRef = useRef<Element | null>(null)
 
   useEffect(() => {
     const element = elementRef.current

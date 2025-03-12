@@ -75,9 +75,7 @@ export const Blogs: CollectionConfig = {
         placeholder: 'https://',
         description: 'The full URL to your blog post',
       },
-      validate: (
-        val: string | string[] | null | undefined
-      ): boolean | string => {
+      validate: (val: string | string[] | null | undefined): true | string => {
         if (!val || typeof val !== 'string' || !/^https?:\/\/.+/.test(val)) {
           return 'Please enter a valid URL starting with http:// or https://'
         }

@@ -69,7 +69,7 @@ export const Pages: CollectionConfig = {
       hooks: {
         beforeValidate: [
           ({ value, data }) => {
-            if (data.slugMode === 'generate' && data?.title) {
+            if (data && data.slugMode === 'generate' && data?.title) {
               return data.title
                 .toLowerCase()
                 .replace(/[^\w\s]/gi, '')
@@ -109,7 +109,7 @@ export const Pages: CollectionConfig = {
       hooks: {
         beforeValidate: [
           ({ value, data, siblingData }) => {
-            if (data.pathMode === 'generate') {
+            if (data && data.pathMode === 'generate') {
               const segments = []
               if (siblingData.parent) {
                 // You would need to fetch th parent's path here

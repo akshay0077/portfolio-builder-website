@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { notFound } from 'next/navigation'
 import ProjectDetails from './ProjectDetails'
 import { Metadata } from 'next'
@@ -24,18 +25,15 @@ async function getProjects() {
 export async function generateMetadata({
   params,
 }: {
-  params: { 'project-details': string }
+  params: any
 }): Promise<Metadata> {
   return {
     title: `Project - ${params['project-details']}`,
   }
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { 'project-details': string }
-}) {
+export default async function Page({ params }: any) {
+  const projectSlug = params['project-details']
   const projects = await getProjects()
 
   if (!Array.isArray(projects) || projects.length === 0) {
@@ -44,8 +42,7 @@ export default async function Page({
   }
 
   const currentProject = projects.find(
-    (project) =>
-      project.slug.toLowerCase() === params['project-details'].toLowerCase()
+    (project) => project.slug.toLowerCase() === projectSlug.toLowerCase()
   )
 
   if (!currentProject) {
