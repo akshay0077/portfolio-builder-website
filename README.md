@@ -179,7 +179,6 @@ portfolio-website-builder/
 - 🔍 useIntersectionObserver - For scroll animations
 - 🌓 useTheme - Theme management
 - 🔄 useAPI - API integration
-- 📱 useMediaQuery - Responsive design
 - 🔒 useAuth - Authentication
 - 💾 useLocalStorage - Storage management
 - 🎭 useAnimation - Animation controls
@@ -248,6 +247,66 @@ SMTP_PASSWORD=your_smtp_password
 - 🔄 Server-Side Rendering (SSR)
 - 🗃️ API Route Optimization
 - 💾 Response Caching
+
+## Screenshots 📸
+
+- ### User Registration in Payload
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/01-admin-register.png)
+
+- ### User Login 
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/01.1-admin-login.png)
+
+- ### Dashboard Screen
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/02-payload-dashboard.png)
+
+- ### Creating Pages for the Portfolio
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/03-create-pages.png)
+
+- ### All Necessary Pages to build Portfolio
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/03.1-all-page-list.png)
+
+
+- ### Choose the Page Building Layout 
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/04-choose-layout-block-for-pages.png)
+
+- ### Generating Layout for Home Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/05-generate%20the%20layout.png)
+
+- ### Creating a Blog Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/06-create-blog.png)
+
+- ### All the Blog Listed
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/07-all-blog-list.png)
+
+- ### Site Settings for Global Configuration of the Website
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/08-site-settings.png)
+
+- ### Creating a Project Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/09-creating-project.png)
+
+- ### All the Project Listed
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/09.1-all-project-list.png)
+
+- ### Portfolio website Home Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/10-website-home-page.png)
+
+- ### Portfolio Blog Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/11-blog-page.png)
+
+- ### Portfolio About Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/12-about-page.png)
+
+- ### Portfolio Tech Stack Listed Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/13-tech-stack.png)
+
+- ### Portfolio Experience Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/14-experience-page.png)
+
+- ### Portfolio All the Project Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/15-all-project-list-page.png)
+
+- ### Portfolio Website Project Details Page
+![Logo](https://raw.githubusercontent.com/akshay0077/portfolio-builder-website/refs/heads/main/screenshot/16-project-details-page.png)
 
 ## 🤝 Contributing
 
